@@ -10,8 +10,8 @@ connectDatabase()
   .then(() => {
     const server = http.createServer(app);
     attachSocket(server);
-    server.listen(port, () => {
-      console.log(`Azure Bay API listening on http://127.0.0.1:${port}`);
+    server.listen(port, "0.0.0.0", () => {
+      console.log(`Azure Bay API listening on http://0.0.0.0:${port}`);
     });
   })
   .catch((error) => {

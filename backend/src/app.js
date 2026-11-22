@@ -1,10 +1,12 @@
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const { clientOrigin } = require("./config");
+const { allowOrigin } = require("./config");
 
 const app = express();
 
@@ -20,12 +22,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin(origin, callback) {
-      const allowed = [clientOrigin, "http://localhost:5173", "http://127.0.0.1:5173"];
-      if (!origin || allowed.includes(origin) || origin.endsWith(".vercel.app")) {
-        callback(null, true);
-        return;
-      }
-      callback(null, false);
+      callback(null, allowOrigin(origin));
     },
     credentials: true,
   }),
@@ -46,6 +43,18 @@ app.use("/api/v1", require("./routes/admin"));
 app.use("/api/v1", require("./routes/media"));
 app.use("/api/v1/desk-messages", require("./routes/deskMessages"));
 app.use("/api/v1/dining", require("./routes/dining"));
+
+const clientDist = path.join(__dirname, "../../frontend/dist");
+if (process.env.NODE_ENV === "production" && fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.use((req, res, next) => {
+    if (req.method !== "GET" || req.path.startsWith("/api/") || req.path.startsWith("/socket.io")) {
+      next();
+      return;
+    }
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
+}
 
 app.use((error, req, res, next) => {
   if (res.headersSent) {

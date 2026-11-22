@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { Server } = require("socket.io");
-const { jwtSecret, clientOrigin } = require("./config");
+const { jwtSecret, allowOrigin } = require("./config");
 
 let io;
 
@@ -15,7 +15,9 @@ function readCookie(header, name) {
 function attachSocket(server) {
   io = new Server(server, {
     cors: {
-      origin: [clientOrigin, "http://localhost:5173", "http://127.0.0.1:5173"],
+      origin(origin, callback) {
+        callback(null, allowOrigin(origin));
+      },
       credentials: true,
     },
   });
