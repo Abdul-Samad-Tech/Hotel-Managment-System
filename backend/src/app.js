@@ -19,7 +19,14 @@ app.use(express.json({ limit: "6mb" }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [clientOrigin, "http://localhost:5173", "http://127.0.0.1:5173"],
+    origin(origin, callback) {
+      const allowed = [clientOrigin, "http://localhost:5173", "http://127.0.0.1:5173"];
+      if (!origin || allowed.includes(origin) || origin.endsWith(".vercel.app")) {
+        callback(null, true);
+        return;
+      }
+      callback(null, false);
+    },
     credentials: true,
   }),
 );
