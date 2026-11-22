@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Azure Bay Hotel & Resort HMS API
+  version: 1.0.0
+  description: |
+    REST API blueprint for the MERN Hotel Management System derived from the submitted eProject SRS.
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login a user
+      requestBody: { required: true }
+      responses: { '200': { description: Authenticated } }
+  /auth/logout:
+    post:
+      tags: [Auth]
+      responses: { '204': { description: Logged out } }
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      responses: { '200': { description: New access token } }
+  /users:
+    get: { tags: [Users], summary: List users/staff, responses: { '200': { description: OK } } }
+    post: { tags: [Users], summary: Create staff/user, responses: { '201': { description: Created } } }
+  /users/{id}:
+    get: { tags: [Users], parameters: [{ in: path, name: id, required: true, schema: { type: string }}], responses: { '200': { description: OK } } }
+    patch: { tags: [Users], parameters: [{ in: path, name: id, required: true, schema: { type: string }}], responses: { '200': { description: Updated } } }
+  /guests:
+    get: { tags: [Guests], summary: Search guest profiles, responses: { '200': { description: OK } } }
+    post: { tags: [Guests], summary: Create guest profile, responses: { '201': { description: Created } } }
+  /room-types:
+    get: { tags: [Rooms], summary: List room types, responses: { '200': { description: OK } } }
+    post: { tags: [Rooms], summary: Create room type, responses: { '201': { description: Created } } }
+  /rooms:
+    get: { tags: [Rooms], summary: List rooms/filter by status, responses: { '200': { description: OK } } }
+    post: { tags: [Rooms], summary: Create room, responses: { '201': { description: Created } } }
+  /rooms/{id}/status:
+    patch: { tags: [Rooms], summary: Update room status, responses: { '200': { description: Updated } } }
+  /availability:
+    get:
+      tags: [Reservations]
+      summary: Check room availability for a date range
+      responses: { '200': { description: Availability result } }
+  /reservations:
+    get: { tags: [Reservations], summary: List/search reservations, responses: { '200': { description: OK } } }
+    post: { tags: [Reservations], summary: Create reservation, responses: { '201': { description: Created } } }
+  /reservations/{id}:
+    get: { tags: [Reservations], responses: { '200': { description: OK } } }
+    patch: { tags: [Reservations], summary: Modify/cancel reservation, responses: { '200': { description: Updated } } }
+  /reservations/{id}/check-in:
+    post: { tags: [Stays], summary: Check in guest, responses: { '200': { description: Checked in } } }
+  /reservations/{id}/check-out:
+    post: { tags: [Stays], summary: Check out guest and finalize bill, responses: { '200': { description: Checked out } } }
+  /invoices/{id}:
+    get: { tags: [Billing], responses: { '200': { description: Invoice } } }
+  /invoices/{id}/items:
+    post: { tags: [Billing], summary: Add service/charge item, responses: { '201': { description: Added } } }
+  /invoices/{id}/issue:
+    post: { tags: [Billing], summary: Issue invoice, responses: { '200': { description: Issued } } }
+  /payments:
+    post: { tags: [Billing], summary: Record a payment, responses: { '201': { description: Recorded } } }
+  /housekeeping/tasks:
+    get: { tags: [Housekeeping], responses: { '200': { description: OK } } }
+    post: { tags: [Housekeeping], summary: Schedule cleaning task, responses: { '201': { description: Created } } }
+  /housekeeping/tasks/{id}:
+    patch: { tags: [Housekeeping], summary: Update housekeeping task, responses: { '200': { description: Updated } } }
+  /maintenance/tickets:
+    get: { tags: [Maintenance], responses: { '200': { description: OK } } }
+    post: { tags: [Maintenance], summary: Create maintenance request, responses: { '201': { description: Created } } }
+  /maintenance/tickets/{id}:
+    patch: { tags: [Maintenance], summary: Update maintenance ticket, responses: { '200': { description: Updated } } }
+  /service-requests:
+    get: { tags: [Services], responses: { '200': { description: OK } } }
+    post: { tags: [Services], summary: Create guest service request, responses: { '201': { description: Created } } }
+  /feedback:
+    get: { tags: [Feedback], responses: { '200': { description: OK } } }
+    post: { tags: [Feedback], summary: Submit guest feedback, responses: { '201': { description: Created } } }
+  /reports/occupancy:
+    get: { tags: [Reports], summary: Occupancy report, responses: { '200': { description: OK } } }
+  /reports/revenue:
+    get: { tags: [Reports], summary: Revenue report, responses: { '200': { description: OK } } }
+  /reports/guest-feedback:
+    get: { tags: [Reports], summary: Guest feedback report, responses: { '200': { description: OK } } }
+  /notifications:
+    get: { tags: [Notifications], responses: { '200': { description: OK } } }
+  /notifications/{id}/read:
+    patch: { tags: [Notifications], responses: { '200': { description: Updated } } }
+  /settings:
+    get: { tags: [Settings], responses: { '200': { description: OK } } }
+    patch: { tags: [Settings], summary: Update system settings, responses: { '200': { description: Updated } } }
+  /health:
+    get:
+      security: []
+      responses: { '200': { description: Service healthy } }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

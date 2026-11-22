@@ -1,0 +1,339 @@
+================================================================================
+AZURE BAY HOTEL & RESORT
+PROJECT FEEDBACK FORM
+Evaluation · Viva · Stakeholder Review · Continuous Improvement
+================================================================================
+
+Document type: Feedback Form (PDF source — plain text)
+Project: Hotel Management System (HMS) — MERN Capstone
+Version: 1.0 | 2026-10-13
+
+INSTRUCTIONS FOR PDF BUILDERS
+-----------------------------
+- Keep this as a fillable-looking form: leave underscore lines and checkbox
+  squares [ ] intact so evaluators can print and write, or convert to fillable PDF.
+- Insert project screenshots only in the IMAGE PLACEHOLDER blocks (evidence pages).
+- Print double-sided if needed; page 1 identity + scores, later pages comments.
+
+--------------------------------------------------------------------------------
+SECTION A — RESPONDENT IDENTITY
+--------------------------------------------------------------------------------
+
+Project title: Azure Bay Hotel & Resort — Hotel Management System (HMS)
+
+Evaluation date (DD/MM/YYYY): ____ / ____ / ________
+
+Respondent full name: ________________________________________________
+
+Role / designation (tick one):
+  [ ] External examiner / viva panel
+  [ ] Internal faculty supervisor
+  [ ] Industry mentor / hotel stakeholder
+  [ ] Peer reviewer / teammate
+  [ ] End-user tester (guest perspective)
+  [ ] End-user tester (staff perspective)
+  [ ] Other: ________________________________________________
+
+Organization / institution: ________________________________________________
+
+Email (optional): ________________________________________________
+
+Demo environment used:
+  [ ] Local (localhost / 127.0.0.1)
+  [ ] Hosted deployment
+  [ ] Screen recording / walkthrough only
+  URL (if any): ________________________________________________
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: FF-01
+Section: Form header
+Caption: Small Azure Bay logo or project banner for form letterhead
+Suggested asset: Brand mark / home hero crop — place top of PDF page 1
+[[[ /IMAGE PLACEHOLDER ]]]
+
+--------------------------------------------------------------------------------
+SECTION B — PROJECT COVERAGE CHECKLIST (0–100 MAP)
+--------------------------------------------------------------------------------
+
+Tick what you personally reviewed or saw demonstrated.
+
+PUBLIC WEBSITE
+  [ ] Home hero and booking bar
+  [ ] Rooms list + filters
+  [ ] Room detail (gallery, amenities, policies, reviews)
+  [ ] Dining page
+  [ ] Experiences / Gallery / Location / Contact
+  [ ] Auth (login / register)
+  [ ] Booking flow + calendar rules
+  [ ] My bookings
+  [ ] Guest messages
+
+GUEST PORTAL
+  [ ] Your stay / profile
+  [ ] Feedback submit
+  [ ] Room care (cleaning / DND) after check-in
+  [ ] Dining order while checked in
+
+STAFF OPERATIONS
+  [ ] Front desk check-in / check-out / invoice
+  [ ] Desk messages
+  [ ] Dining kitchen / tables (and menu if manager)
+  [ ] Housekeeping board
+  [ ] Maintenance tickets
+  [ ] Inventory room types + amenities + physical rooms
+  [ ] Media library
+  [ ] Overview reports + CSV
+  [ ] Review publish / hide
+  [ ] Staff management (admin)
+  [ ] Settings: tax, booking window, stay policies (admin)
+
+CROSS-CUTTING
+  [ ] Role-based access (least privilege)
+  [ ] Live updates / alerts
+  [ ] Responsive / mobile behavior
+  [ ] Empty / error / loading states
+  [ ] Documentation (guides / WORKLOG)
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: FF-02
+Section: Evidence — public
+Caption: Collage or single screenshot proving public site review (home or rooms)
+Suggested asset: Screenshot used during viva
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: FF-03
+Section: Evidence — portal
+Caption: Screenshot of staff portal feature reviewed (desk / inventory / HK)
+Suggested asset: Portal screenshot from demo
+[[[ /IMAGE PLACEHOLDER ]]]
+
+--------------------------------------------------------------------------------
+SECTION C — SCORED EVALUATION (1–5)
+--------------------------------------------------------------------------------
+
+Scale:
+  1 = Poor / Missing
+  2 = Below expectation
+  3 = Satisfactory
+  4 = Good
+  5 = Excellent
+
+Circle or write the score for each criterion.
+
+C1. Problem fit — Does the system match real hotel needs?
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C2. Completeness — Guest journey + staff operations coverage
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C3. UI / UX & design system — Brand consistency, clarity, polish
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C4. Usability — Could a new receptionist / guest learn it quickly?
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C5. Role-based security — Least privilege respected in UI and behavior
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C6. Technical quality — Architecture, API design, data modeling (MERN)
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C7. Reliability of booking rules — Windows, sold-out, check-in gates
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C8. Operations depth — Desk, dining, HK, billing, messaging
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C9. Content management — Amenities, policies, reviews, media
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+C10. Documentation & demo readiness — Guides, clarity for viva
+    Score: _____ / 5
+    Notes: _______________________________________________________________
+
+SUBTOTAL (sum of C1–C10): _____ / 50
+
+Optional weighted overall (examiner use):
+  Convert to percentage: (Subtotal ÷ 50) × 100 = _____ %
+
+--------------------------------------------------------------------------------
+SECTION D — FEATURE-SPECIFIC FEEDBACK
+--------------------------------------------------------------------------------
+
+D1. Public booking experience
+  What worked well:
+  ___________________________________________________________________________
+  ___________________________________________________________________________
+  What to improve:
+  ___________________________________________________________________________
+  ___________________________________________________________________________
+
+D2. Front desk & billing
+  What worked well:
+  ___________________________________________________________________________
+  What to improve:
+  ___________________________________________________________________________
+
+D3. Dining / F&B
+  What worked well:
+  ___________________________________________________________________________
+  What to improve:
+  ___________________________________________________________________________
+
+D4. Housekeeping & guest room care
+  What worked well:
+  ___________________________________________________________________________
+  What to improve:
+  ___________________________________________________________________________
+
+D5. Admin inventory, media, policies, reviews
+  What worked well:
+  ___________________________________________________________________________
+  What to improve:
+  ___________________________________________________________________________
+
+D6. Access control (admin vs manager vs receptionist vs HK)
+  Clear?   [ ] Yes   [ ] Partially   [ ] No
+  Comments:
+  ___________________________________________________________________________
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: FF-04
+Section: Evidence — role difference
+Caption: Optional: Admin sidebar vs Receptionist sidebar (access clarity)
+Suggested asset: Side-by-side nav screenshots
+[[[ /IMAGE PLACEHOLDER ]]]
+
+--------------------------------------------------------------------------------
+SECTION E — DEFECTS / BUGS OBSERVED
+--------------------------------------------------------------------------------
+
+List issues found during review. Severity: Critical / Major / Minor / Suggestion
+
+No. | Severity   | Area (page/module)     | Description                      | Reproducible?
+----|------------|------------------------|----------------------------------|--------------
+1.  | __________ | ______________________ | ________________________________ | [ ] Y [ ] N
+2.  | __________ | ______________________ | ________________________________ | [ ] Y [ ] N
+3.  | __________ | ______________________ | ________________________________ | [ ] Y [ ] N
+4.  | __________ | ______________________ | ________________________________ | [ ] Y [ ] N
+5.  | __________ | ______________________ | ________________________________ | [ ] Y [ ] N
+
+Attach extra pages if needed.
+
+--------------------------------------------------------------------------------
+SECTION F — VIVA / DEMO PERFORMANCE (PANEL USE)
+--------------------------------------------------------------------------------
+
+  [ ] Team explained architecture clearly
+  [ ] Team explained database / models clearly
+  [ ] Live demo succeeded without major blockers
+  [ ] Questions on RBAC answered correctly
+  [ ] Questions on booking/availability answered correctly
+  [ ] Honesty about limitations / future work
+
+Oral presentation score (optional): _____ / 10
+
+Comments for viva record:
+_______________________________________________________________________________
+_______________________________________________________________________________
+_______________________________________________________________________________
+
+--------------------------------------------------------------------------------
+SECTION G — OVERALL RECOMMENDATION
+--------------------------------------------------------------------------------
+
+Overall verdict (tick one):
+  [ ] Outstanding — ready as reference submission
+  [ ] Strong pass — minor polish only
+  [ ] Pass — acceptable with noted improvements
+  [ ] Conditional — must address listed critical/major items
+  [ ] Needs significant rework
+
+Would you recommend this system as a teaching / portfolio demo?
+  [ ] Yes   [ ] Yes with fixes   [ ] No
+
+One-sentence summary for the record:
+_______________________________________________________________________________
+_______________________________________________________________________________
+
+--------------------------------------------------------------------------------
+SECTION H — STAKEHOLDER / HOTEL OPERATOR LENS (OPTIONAL)
+--------------------------------------------------------------------------------
+
+If you represent hotel operations, rate operational readiness:
+
+  Front desk workflow .......... _____ / 5
+  Night audit / reports ........ _____ / 5
+  F&B operations ............... _____ / 5
+  Housekeeping coordination .... _____ / 5
+  Content updates by non-devs .. _____ / 5
+
+Would you trial this in a small property?
+  [ ] Yes   [ ] Pilot only   [ ] Not yet — because: ____________________________
+
+--------------------------------------------------------------------------------
+SECTION I — PRIORITIZED IMPROVEMENT BACKLOG
+--------------------------------------------------------------------------------
+
+Ask the respondent to list top 5 improvements (priority order):
+
+1. ___________________________________________________________________________
+2. ___________________________________________________________________________
+3. ___________________________________________________________________________
+4. ___________________________________________________________________________
+5. ___________________________________________________________________________
+
+--------------------------------------------------------------------------------
+SECTION J — SIGN-OFF
+--------------------------------------------------------------------------------
+
+I confirm this feedback reflects my independent review of Azure Bay HMS.
+
+Signature: _______________________________     Date: ____ / ____ / ________
+
+Printed name: ________________________________________________
+
+For student team use only (after collecting forms):
+  Forms collected: _____    Average %: _____    Action items logged: [ ] Yes
+
+--------------------------------------------------------------------------------
+SECTION K — PROJECT FACT SHEET (ATTACH TO FEEDBACK PACKET)
+--------------------------------------------------------------------------------
+
+Product: Azure Bay Hotel & Resort HMS
+Stack: MongoDB, Express, React, Node.js (MERN) + Socket.IO
+Key modules: Public site, Booking, Guest portal, Front desk, Messages, Dining,
+             Housekeeping, Maintenance, Inventory, Media, Reports, Staff, Settings
+Demo password (seed): AzureBay#2025
+Docs pack: docs/submission-pack/ (Design, Developer, User, Feedback)
+Living docs: docs/*.md (ACCESS_MATRIX, ADMIN_PORTAL_GUIDE, ROOM_CONTENT, …)
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: FF-05
+Section: Closing plate
+Caption: Final product collage — home + room detail + front desk (three panels)
+Suggested asset: Triptych of best screenshots for feedback packet cover/back
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+IMAGE PLATE INDEX
+================================================================================
+
+FF-01 Letterhead / logo
+FF-02 Public evidence screenshot
+FF-03 Portal evidence screenshot
+FF-04 Role sidebar comparison
+FF-05 Closing collage
+
+END OF FEEDBACK FORM
+================================================================================

@@ -1,0 +1,493 @@
+================================================================================
+AZURE BAY HOTEL & RESORT
+DESIGN GUIDE
+Visual Identity · UI/UX System · Public Site · Staff Portal
+================================================================================
+
+Document type: Design Guide (PDF source — plain text)
+Project: Hotel Management System (HMS) — MERN
+Audience: Examiners, designers, developers implementing or reviewing UI
+Version: 1.0 | 2026-10-13
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1.  Purpose and scope
+2.  Brand story and positioning
+3.  Design principles
+4.  Color system
+5.  Typography
+6.  Spacing, radius, elevation
+7.  Iconography and motion
+8.  Component library (design system)
+9.  Public website — page by page
+10. Booking and conversion UX
+11. Staff / admin portal UX
+12. Role-based interface clarity
+13. Responsive and mobile behavior
+14. Accessibility
+15. Imagery and media guidelines
+16. Empty, loading, and error states
+17. Design QA checklist
+18. Image plate index (for PDF)
+
+================================================================================
+1. PURPOSE AND SCOPE
+================================================================================
+
+This Design Guide defines how Azure Bay looks and feels across:
+
+  • Public marketing and booking website
+  • Guest account surfaces (My bookings, Messages, Stay portal)
+  • Staff portal (Front desk, Dining, Housekeeping, Inventory, Settings, etc.)
+
+It is the visual companion to the Developer Guide and User Guide. Implementation
+must reuse one design system — do not invent a second look for the admin area.
+
+================================================================================
+2. BRAND STORY AND POSITIONING
+================================================================================
+
+Brand name: Azure Bay Hotel & Resort
+Tone: Calm luxury by the sea — confident, warm, never loud or “startup purple.”
+Promise: Seamless stay discovery online; reliable operations for the house staff.
+
+Brand signals on first viewport:
+  • Resort name / logo as a hero-level presence (not only tiny nav text)
+  • One clear headline, one supporting line, one primary CTA group
+  • One dominant full-bleed ocean / resort photograph
+
+Avoid (project rule):
+  • Generic purple-on-white SaaS look
+  • Flat single-color pages with no atmosphere
+  • Card spam in the hero
+  • Detached promo stickers floating on hero media
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-01
+Section: Brand / Cover
+Caption: Azure Bay brand cover — logo on cream with navy wordmark and gold accent line
+Suggested asset: Logo lockup or stylized cover; optional client/public brand mark
+PDF note: Full-page or half-page cover image for the Design Guide PDF.
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+3. DESIGN PRINCIPLES
+================================================================================
+
+P1. One composition first
+    The home first viewport reads as one scene, not a dashboard of widgets.
+
+P2. Brand first
+    After removing the nav, the page should still feel like Azure Bay.
+
+P3. One job per section
+    Each band has one headline and one supporting sentence.
+
+P4. Real visual anchors
+    Photography of rooms, sea, dining, spa — not abstract blobs as the main idea.
+
+P5. Reuse the system
+    Public site and portal share navy, gold, cream, rounded-2xl surfaces, pills.
+
+P6. Motion with purpose
+    Tide-like easing, reveal text, peek carousels — presence, not noise.
+    Honor prefers-reduced-motion.
+
+P7. Least privilege is visible
+    Staff see only the tabs they need; fewer controls = clearer design.
+
+================================================================================
+4. COLOR SYSTEM
+================================================================================
+
+Primary tokens (implementation: client/src/index.css Tailwind theme):
+
+  Navy (authority, text, primary actions outline):
+    --color-navy ≈ #0b1f33
+    Darker navy for depth / hero overlays ≈ #071b2b
+
+  Gold (accent, primary CTA fills, stars, focus rings):
+    --color-gold ≈ #f2c078
+
+  Cream (page canvas, soft panels):
+    Background cream / sand ≈ #fbfaf7 / #faf8f4
+
+  White: cards and elevated panels on cream
+  Muted text: soft slate for secondary copy (readable on cream)
+
+Usage rules:
+  • Primary CTA on public site: gold fill + navy text (high hospitality warmth)
+  • Strong navy fill for secondary / confirm staff actions
+  • Borders: navy at low opacity (≈ 8–15%), never harsh black rules
+  • Focus visible: gold outline / ring
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-02
+Section: Color system
+Caption: Color swatches — Navy, Gold, Cream, White, Muted text samples side by side
+Suggested asset: Designed swatch strip (or screenshot from UiKit / Figma)
+PDF note: Place as a horizontal strip under this section.
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+5. TYPOGRAPHY
+================================================================================
+
+Display / headlines: Serif display (project font-display) — editorial, resort feel.
+Body / UI: Clean sans for forms, tables, nav, portal labels.
+
+Hierarchy examples:
+  • H1 room name / page titles: large display, navy
+  • Section titles: display ~2xl
+  • Eyebrows: small uppercase or small label above titles
+  • Body: sm–base, leading-relaxed / leading-7 for guest reading
+  • Meta: xs–sm muted (prices secondary line, timestamps)
+
+Do not default the entire product to Inter-only marketing look; keep display
+contrast between serif headlines and sans UI.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-03
+Section: Typography
+Caption: Type specimen — Display headline “Azure Bay” + body paragraph + gold italic accent
+Suggested asset: Typography specimen screenshot from Home rooms or experiences intro
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+6. SPACING, RADIUS, ELEVATION
+================================================================================
+
+Spacing: prefer 8px rhythm (gap-2, gap-3, gap-4, section py-14 / py-16).
+Page wrap: consistent max-width container (page-wrap class).
+
+Radius:
+  • Cards / panels: rounded-2xl
+  • Buttons / chips: rounded-full (pill) for primary actions
+  • Image thumbs: rounded-lg to rounded-2xl
+
+Elevation:
+  • Soft navy-tinted shadows, e.g. shadow-[0_16px_40px_rgba(7,27,43,0.08)]
+  • Avoid multi-layer neon glows
+
+================================================================================
+7. ICONOGRAPHY AND MOTION
+================================================================================
+
+Icons: lucide-react — thin, consistent stroke; navy or muted; gold for rating stars.
+
+Motion vocabulary (client/src/lib/motion.js):
+  • easeTide / easeFlow
+  • duration.ui / duration.micro
+  • RevealText, PeekViewport carousels, Preloader, RouteWipe
+  • Custom cursor labels on intentional interactive media (desktop)
+
+Reduced motion: shorten or disable decorative motion; keep usability intact.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-04
+Section: Motion
+Caption: Before/after or frame of peek carousel (rooms or testimonials) mid-scroll
+Suggested asset: Screenshot of Home rooms carousel or testimonials strip
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+8. COMPONENT LIBRARY (DESIGN SYSTEM)
+================================================================================
+
+Shared UI (client/src/components/ui/ and related):
+
+  Buttons: PillButton, CircleButton, gold / navy / outline / light variants
+  Badge: filled and outline chips (amenities, status)
+  Accordion: room policies
+  Tabs: room detail section anchors; dining / portal tab strips
+  Dialog / Drawer / Sheet: amenities “show all”, booking mobile, desk details
+  EmptyState / ErrorState / InlineError / Skeleton: honest system states
+  BayToaster (sonner): toast feedback
+  BlurImage / SmartImage: progressive media
+  Price: consistent currency display
+  Dashboard SoftRow / Panel / cardClass: portal list rows on cream
+
+Staff shell: DashboardShell — sidebar + main; calm motion optional.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-05
+Section: Components
+Caption: UI kit collage — buttons, badges, accordion, empty state, toast
+Suggested asset: /ui-kit in DEV, or composite of Portal + Room detail controls
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+9. PUBLIC WEBSITE — PAGE BY PAGE
+================================================================================
+
+9.1 Home (/)
+  Hero full-bleed → Booking bar → Feature tiles → Rooms showcase →
+  Experiences band → Testimonials (live published feedback) → CTA banner → Footer
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-06
+Section: Home hero
+Caption: Home page first viewport — hero image, brand, headline, Book CTA
+Suggested asset: Screenshot http://127.0.0.1:5173/
+PDF note: Full-width landscape; critical for viva.
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-07
+Section: Home rooms + testimonials
+Caption: Home rooms carousel and guest stories section
+Suggested asset: Screenshot scrolled to rooms + testimonials
+[[[ /IMAGE PLACEHOLDER ]]]
+
+9.2 Rooms list (/rooms)
+  Filters (price, bed, amenities), cards with photo, rate, capacity.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-08
+Section: Rooms list
+Caption: Rooms listing with filters and room cards
+Suggested asset: Screenshot /rooms
+[[[ /IMAGE PLACEHOLDER ]]]
+
+9.3 Room detail (/rooms/:slug)
+  Gallery, overview, Amenities (from Inventory), Policies (Settings),
+  Reviews (published Feedback), sticky booking card / mobile reserve bar.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-09
+Section: Room detail
+Caption: Room detail — gallery + amenities + booking card
+Suggested asset: Screenshot /rooms/deluxe-sea-view (or any seeded slug)
+[[[ /IMAGE PLACEHOLDER ]]]
+
+9.4 Dining (/dining)
+  Live menu when eligible; check-in gate messaging for guests not in house;
+  cart / orders / table request flows as implemented.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-10
+Section: Dining
+Caption: Public dining page — menu or eligibility message
+Suggested asset: Screenshot /dining
+[[[ /IMAGE PLACEHOLDER ]]]
+
+9.5 Experiences, Gallery, Location, Contact
+  Experience cards; media-driven gallery; map/location; contact form.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-11
+Section: Gallery
+Caption: Gallery mosaic / grid of resort photography
+Suggested asset: Screenshot /gallery
+[[[ /IMAGE PLACEHOLDER ]]]
+
+9.6 Auth (/login, /register)
+  Sign-in / Sign-up with OTP email path; return-to booking after auth.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-12
+Section: Auth
+Caption: Login / register screen on cream with navy + gold accents
+Suggested asset: Screenshot /login
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+10. BOOKING AND CONVERSION UX
+================================================================================
+
+  • Sticky mini booking bar after hero scroll (public)
+  • Auth gate on Book / Check availability when unsigned
+  • Price calendar respects booking window + sold-out nights
+  • Booking flow /rooms → detail → /booking/:roomId
+  • My bookings: cancel, request date change via Messages
+
+Design goal: never trap the guest; always show why a night is blocked.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-13
+Section: Booking
+Caption: Booking flow or price calendar with available vs sold-out nights
+Suggested asset: Screenshot booking calendar on room detail or BookingFlowPage
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+11. STAFF / ADMIN PORTAL UX
+================================================================================
+
+Visual language:
+  • Same cream canvas, navy type, gold CTAs
+  • Panel titles with display font
+  • Soft bordered rows (cardClass) for lists
+  • Tables / kanban for desk and housekeeping
+  • Toasts for success/failure — no silent failures
+
+Key screens:
+  Overview (charts + review moderation)
+  Front desk (stays table, actions sheet, invoice)
+  Messages (thread list + conversation)
+  Dining board (Kitchen / Tables; Menu/Reports for managers)
+  Inventory (types + physical rooms + amenity chips + media picker)
+  Media library
+  Housekeeping kanban
+  Maintenance tickets
+  Staff (admin) — password issue card
+  Settings (admin) — tax, window, stay policies
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-14
+Section: Portal overview
+Caption: Admin/manager Overview — charts and Guest reviews block
+Suggested asset: Screenshot /admin logged in as admin@azurebay.test
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-15
+Section: Front desk
+Caption: Front desk stays table with actions menu
+Suggested asset: Screenshot Front desk tab
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-16
+Section: Housekeeping
+Caption: Housekeeping kanban with Guest vs Check-out badges
+Suggested asset: Screenshot Housekeeping board
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-17
+Section: Inventory
+Caption: Inventory room type form showing amenities chips and media picker
+Suggested asset: Screenshot Inventory tab edit type
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+12. ROLE-BASED INTERFACE CLARITY
+================================================================================
+
+Design must make least privilege obvious:
+
+  Admin: Staff + Settings visible
+  Manager: ops tabs; no Staff/Settings
+  Receptionist: desk; Dining Kitchen+Tables only (no Menu/Reports)
+  Housekeeping: own queue emphasis
+  Guest: Stay / Profile / Messages link — not hotel ops
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-18
+Section: Role sidebars
+Caption: Side-by-side sidebar comparison — Admin vs Receptionist vs Guest
+Suggested asset: Three cropped screenshots of DashboardShell nav
+PDF note: Excellent viva slide; label each column.
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+13. RESPONSIVE AND MOBILE BEHAVIOR
+================================================================================
+
+  Desktop ≥1200: full compositions, side booking card on room detail
+  Tablet: booking bar wraps; carousels peek
+  Mobile ≤767: hamburger nav; vertical booking; room mobile reserve bar;
+               portal stacks; tables scroll horizontally if needed
+
+Sticky Check Availability / mini bar: respect safe areas; do not cover CTAs.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-19
+Section: Mobile
+Caption: Mobile home or room detail with bottom reserve bar
+Suggested asset: Phone-width screenshot (390px)
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+14. ACCESSIBILITY
+================================================================================
+
+  • Keyboard reachability for controls
+  • Visible focus (gold outline)
+  • Labels on inputs; associated errors
+  • Meaningful alt text on room/experience images
+  • Contrast on photo overlays (navy scrim / cream panels)
+  • Reduced-motion path
+  • Aria labels on icon-only circle buttons and star ratings
+
+================================================================================
+15. IMAGERY AND MEDIA GUIDELINES
+================================================================================
+
+Sources:
+  • Media library (admin/manager) → assign to room types
+  • Categories: rooms, dining, experiences, gallery, hero, site
+  • Optional Cloudinary; else Mongo/url storage
+
+Photo direction: warm sunset, turquoise water, linen interiors, dining terrace.
+Crop: hero locked composition; room cards consistent 4:3 where used.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-20
+Section: Media library
+Caption: Portal Media tab — named assets in library
+Suggested asset: Screenshot Media panel
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+16. EMPTY, LOADING, AND ERROR STATES
+================================================================================
+
+  Skeleton: loading catalogs, reports, policies, reviews
+  EmptyState: no amenities, no published reviews, empty HK board
+  ErrorState: failed list loads with human message
+  InlineError: field-level booking issues
+
+Never show a blank white screen for expected empty data.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DG-21
+Section: States
+Caption: Example EmptyState and Skeleton on cream background
+Suggested asset: Screenshot of empty reviews or loading inventory
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+17. DESIGN QA CHECKLIST
+================================================================================
+
+[ ] First viewport brand test passes (Azure Bay identifiable without nav)
+[ ] Navy / gold / cream consistent on public + portal
+[ ] No purple SaaS theme regression
+[ ] Hero is full-bleed, not inset card collage
+[ ] Room amenities/policies/reviews match live CMS (not stale static look)
+[ ] Receptionist never sees Menu/Reports dining tabs
+[ ] Focus rings visible; reduced-motion respected
+[ ] Toasts confirm destructive or important actions
+[ ] Screenshots in this guide match current build before PDF freeze
+
+================================================================================
+18. IMAGE PLATE INDEX (FOR PDF BUILDERS)
+================================================================================
+
+DG-01 Brand cover
+DG-02 Color swatches
+DG-03 Typography specimen
+DG-04 Motion / carousel
+DG-05 Component collage
+DG-06 Home hero
+DG-07 Home rooms + testimonials
+DG-08 Rooms list
+DG-09 Room detail
+DG-10 Dining
+DG-11 Gallery
+DG-12 Auth
+DG-13 Booking calendar
+DG-14 Portal overview
+DG-15 Front desk
+DG-16 Housekeeping
+DG-17 Inventory amenities
+DG-18 Role sidebars comparison
+DG-19 Mobile
+DG-20 Media library
+DG-21 Empty / skeleton states
+
+END OF DESIGN GUIDE
+================================================================================

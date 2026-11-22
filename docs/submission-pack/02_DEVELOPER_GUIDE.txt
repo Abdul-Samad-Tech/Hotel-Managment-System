@@ -1,0 +1,483 @@
+================================================================================
+AZURE BAY HOTEL & RESORT
+DEVELOPER GUIDE
+Architecture · Stack · Setup · Modules · APIs · Security · Ops
+================================================================================
+
+Document type: Developer Guide (PDF source — plain text)
+Project: Hotel Management System (HMS) — MERN
+Audience: Developers, examiners reviewing implementation
+Version: 1.0 | 2026-10-13
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1.  Project overview
+2.  Repository layout
+3.  Technology stack
+4.  Local setup and run
+5.  Environment variables
+6.  Architecture overview
+7.  Authentication and sessions
+8.  Roles and access control
+9.  Data models (MongoDB)
+10. API surface (by domain)
+11. Real-time (Socket.IO)
+12. Client architecture
+13. Public catalog and CMS content
+14. Reservations and availability
+15. Billing and invoices
+16. Front desk and messaging
+17. Dining (F&B)
+18. Housekeeping and maintenance
+19. Media pipeline
+20. Reports and exports
+21. Seed and demo data
+22. Testing and quality
+23. Deployment notes
+24. Conventions (do not break)
+25. Image plate index
+
+================================================================================
+1. PROJECT OVERVIEW
+================================================================================
+
+Azure Bay is a full-stack hotel product:
+
+  Public site  — discover rooms, book stays, dining (when in-house), messages
+  Staff portal — run the house (desk, F&B, HK, inventory, reports, settings)
+  API          — Express + MongoDB + JWT + Socket.IO
+
+Business goals encoded in software:
+  • Guests book against real inventory and date windows
+  • Desk checks guests in/out, bills, messages
+  • Managers own rates, media, menu, review publish
+  • Admin owns staff accounts and hotel settings
+  • Least privilege (see ACCESS_MATRIX)
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-01
+Section: Overview
+Caption: System context diagram — Browser ↔ Vite React client ↔ Express API ↔ MongoDB (+ Socket.IO)
+Suggested asset: Draw architecture diagram (boxes + arrows); place full-width
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+2. REPOSITORY LAYOUT
+================================================================================
+
+HMS/
+  client/                 React 19 + Vite + Tailwind 4 frontend
+    src/pages/            Route-level pages
+    src/components/       UI, home, dashboard, booking, messages
+    src/context/          AuthContext, LocaleContext
+    src/lib/              api, session, motion, catalog, emailjs, roles
+    src/store/            Zustand search / compare / wishlist
+    src/data/             Static fallbacks (rooms, testimonials, etc.)
+    src/hooks/            catalog, booking window, media, …
+  server/                 Express API
+    src/index.js          Boot: DB → seed → HTTP + sockets
+    src/app.js            Middleware + route mounts under /api/v1
+    src/models.js         Mongoose schemas
+    src/routes/           auth, rooms, reservations, billing, operations,
+                          admin, media, deskMessages, dining
+    src/lib/              availability, bookingWindow, pricing, ensure*, …
+    src/middleware/       auth, rateLimit
+    src/sockets.js        Socket.IO attach + publish helpers
+  docs/                   Living project documentation
+    submission-pack/      This PDF-oriented pack
+  HMS Plan/               Earlier UI/DB/architecture specs (reference)
+
+================================================================================
+3. TECHNOLOGY STACK
+================================================================================
+
+Frontend
+  React 19, React Router 7, Vite
+  Tailwind CSS 4 (@tailwindcss/vite)
+  Framer Motion, Embla Carousel, Lenis smooth scroll
+  Radix UI primitives, Vaul drawer, Sonner toasts
+  Zustand, TanStack Table, Recharts, Leaflet
+  Socket.IO client, EmailJS browser SDK
+  date-fns, react-day-picker, lucide-react, dnd-kit
+
+Backend
+  Node.js, Express 5
+  Mongoose 9 / MongoDB
+  JWT (jsonwebtoken), bcryptjs
+  Zod validation, Helmet, CORS, Morgan, cookie-parser
+  Socket.IO, Multer, Cloudinary (optional)
+  dotenv
+
+================================================================================
+4. LOCAL SETUP AND RUN
+================================================================================
+
+Prerequisites: Node.js LTS, MongoDB (local or Atlas URI in server/.env)
+
+Server:
+  cd server
+  npm install
+  # configure .env (see section 5)
+  npm run dev
+  → http://127.0.0.1:5000
+  Health: GET /api/v1/health
+
+Client:
+  cd client
+  npm install
+  # VITE_API_URL or proxy to :5000 (see vite.config)
+  npm run dev
+  → http://127.0.0.1:5173
+
+On API boot: connectDatabase → seedDatabase (idempotent if users exist) → listen.
+Empty users collection triggers full demo seed.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-02
+Section: Setup
+Caption: Terminal screenshot — API “listening on 5000” and Vite “Local: 5173”
+Suggested asset: Two terminal panes or combined screenshot
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+5. ENVIRONMENT VARIABLES
+================================================================================
+
+server/.env (typical)
+  PORT=5000
+  MONGODB_URI=...
+  JWT_SECRET=...
+  CLIENT_ORIGIN=http://127.0.0.1:5173
+  CLOUDINARY_CLOUD_NAME=   (optional)
+  CLOUDINARY_API_KEY=
+  CLOUDINARY_API_SECRET=
+
+client/.env (typical)
+  VITE_EMAILJS_SERVICE_ID=
+  VITE_EMAILJS_TEMPLATE_ID=
+  VITE_EMAILJS_PUBLIC_KEY=
+  VITE_EMAILJS_OTP_TEMPLATE_ID=   (optional OTP template)
+  # API base if not using Vite proxy
+
+Never commit secrets. Restart Vite after changing VITE_* keys.
+
+================================================================================
+6. ARCHITECTURE OVERVIEW
+================================================================================
+
+Request path:
+  UI → api() helper (Bearer access token per tab) → /api/v1/* → middleware
+  → route handler → Mongoose → JSON
+
+Live updates:
+  Server publish("room" | reservation events | …) → Socket.IO → client useOpsPulse
+
+Auth model:
+  Multi-tab safe: prefer Authorization Bearer; cookies kept for compatibility.
+  See docs/MULTI_TAB_AUTH.md
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-03
+Section: Architecture
+Caption: Sequence — Guest books room (UI → POST reservation → availability check → invoice)
+Suggested asset: Sequence diagram image
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+7. AUTHENTICATION AND SESSIONS
+================================================================================
+
+Files: server/src/middleware/auth.js, routes/auth.js
+       client/src/context/AuthContext.jsx, lib/session.js, lib/api.js
+
+  • Sign access JWT (role in payload), refresh token hashed on User
+  • requireAuth / requireRole(...roles)
+  • Login rate limited
+  • Guest register creates User(role=guest) + Guest profile
+  • Signup OTP via EmailJS on client before register (when configured)
+
+Role homes: client/src/lib/roles.js → /admin, /staff, /guest, …
+
+================================================================================
+8. ROLES AND ACCESS CONTROL
+================================================================================
+
+Roles: admin | manager | receptionist | housekeeping | maintenance | guest
+
+Official matrix: docs/ACCESS_MATRIX.md
+
+Summary for developers:
+  Staff CRUD + password reset     → admin only
+  Settings PATCH (tax, window, stayPolicies) → admin only
+  Inventory / Media / Menu CRUD   → admin + manager
+  Dining kitchen/tables status    → includes receptionist
+  Feedback publish                → admin + manager
+  HK task list for housekeeping role → unassigned + own only
+  Guest dining / room care        → checked_in stay required
+
+UI must hide unauthorized tabs; API must still enforce (never UI-only security).
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-04
+Section: RBAC
+Caption: Access matrix table graphic (from ACCESS_MATRIX) — tabs × roles
+Suggested asset: Export table as image or screenshot of docs matrix
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+9. DATA MODELS (MONGODB)
+================================================================================
+
+Defined in server/src/models.js (high level):
+
+  User, Guest
+  RoomType (name, slug, baseRate cents, bed, capacity, amenities[], image, gallery, active)
+  Room (roomNumber, roomTypeId, floor, status, active)
+  Reservation, Stay
+  Invoice, InvoiceItem, Payment
+  HousekeepingTask, MaintenanceTicket, ServiceRequest
+  Feedback (rating, title, comment, published, guestId, reservationId?)
+  Notification
+  Setting (key/value Mixed) — taxRate, hotelName, currency, bookingOpen*, stayPolicies
+  MediaAsset
+  AuditLog
+  DeskThread, DeskMessage
+  DiningMenuCategory, DiningMenuItem, DiningOrder, DiningTable, DiningTableBooking
+  Role
+
+Money: store baseRate in minor units (cents); API often exposes divided by 100 for UI.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-05
+Section: Data model
+Caption: ER-style diagram — Guest–Reservation–RoomType–Room–Invoice; Feedback; DiningOrder
+Suggested asset: Schema diagram from HMS Plan or redrawn
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+10. API SURFACE (BY DOMAIN)
+================================================================================
+
+Base: /api/v1
+
+Auth: register, login, refresh, logout, me, …
+Rooms: GET /room-types, CRUD room-types & rooms (managers), availability
+Reservations: create, list, patch status / dates / notes
+Billing: invoices, payments, line items
+Operations: housekeeping, maintenance, service-requests, feedback,
+            GET /public/stay-policies, GET /feedback, GET /feedback/manage,
+            PATCH /feedback/:id
+Admin: users, roles, reports (occupancy, revenue, guest-feedback, performance),
+       settings GET/PATCH, CSV formats
+Media: list/upload/CRUD
+Desk messages: threads + messages
+Dining: menu, orders, eligibility, tables, bookings, reports, kitchen status
+
+Public reads used by marketing site:
+  room-types, feedback (published), public/stay-policies, booking-window,
+  content/media (as implemented), availability
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-06
+Section: API
+Caption: Example JSON — GET /public/stay-policies and GET /feedback (pretty printed)
+Suggested asset: Screenshot of browser Network or Insomnia/Postman
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+11. REAL-TIME (SOCKET.IO)
+================================================================================
+
+server/src/sockets.js + client lib/live.js
+  • Authenticated socket where required
+  • publish() after inventory / reservation / ops mutations
+  • Portal pulse refreshes lists without full reload
+
+================================================================================
+12. CLIENT ARCHITECTURE
+================================================================================
+
+App.jsx routes: public layout + lazy PortalPage / RoleGate
+api(path, { method, body }) attaches Bearer token from session
+Design system components under components/ui
+Portal monolith: pages/PortalPage.jsx hosts role sections (Inventory, Settings, …)
+Domain boards extracted: DiningBoard, HouseKanban, BookingsTable, DeskMessagesPanel
+
+State:
+  AuthContext — user session
+  Zustand searchStore — stay dates/guests persist (azure-bay-search)
+  Catalog hook — loadRoomCatalog() API with static fallback if API down
+
+================================================================================
+13. PUBLIC CATALOG AND CMS CONTENT
+================================================================================
+
+Amenities: RoomType.amenities via Inventory chips → roomCatalog mapApiTypeToRoom
+  When API type exists, empty amenities stay empty (no silent static fill).
+
+Policies: Setting stayPolicies → GET /public/stay-policies → RoomDetail Accordion
+  Admin edits in SettingsPanel.
+
+Reviews: Feedback published flag
+  Guest POST → published:false
+  Staff PATCH publish
+  Home TestimonialsSection + RoomDetail Reviews read GET /feedback
+
+Docs: docs/ROOM_CONTENT.md
+
+================================================================================
+14. RESERVATIONS AND AVAILABILITY
+================================================================================
+
+bookingWindow.js — past blocked; openFrom/openTo settings
+availability.js — sold-out when all physical rooms of type blocked for night
+Statuses: pending, confirmed, checked_in, checked_out, cancelled, no_show
+Check-in unlocks dining + guest room-care APIs (inHouseStay helper)
+
+================================================================================
+15. BILLING AND INVOICES
+================================================================================
+
+Invoice + line items (room, dining, extras…)
+Desk can add charges, record payment, print, EmailJS send (docs/INVOICE_EMAILJS.md)
+Dining orders append dining category lines when configured
+
+================================================================================
+16. FRONT DESK AND MESSAGING
+================================================================================
+
+Front desk UI: search, stays table, row actions (check-in, check-out, no-show,
+move dates, invoice sheet) — docs/FRONT_DESK.md
+
+Desk messaging: DeskThread / DeskMessage; guest /messages; portal Messages tab
+Date-change requests with open-night hints — docs/DESK_MESSAGING.md, GUEST_STAY_POLICY.md
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-07
+Section: Messaging
+Caption: Split view — guest Messages page and staff DeskMessagesPanel
+Suggested asset: Two screenshots side by side
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+17. DINING (F&B)
+================================================================================
+
+Modules: menu categories/items, guest orders, kitchen status board,
+         dining tables + bookings, reports/CSV
+Eligibility: checked_in
+Receptionist: Kitchen + Tables UI only; menu/reports managers+
+docs/DINING_SYSTEM.md
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-08
+Section: Dining board
+Caption: Portal Dining — Kitchen board with order status chips
+Suggested asset: Screenshot DiningBoard kitchen tab
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+18. HOUSEKEEPING AND MAINTENANCE
+================================================================================
+
+HousekeepingTask types include checkout-clean, guest_makeup, dnd, …
+Guest Room care from Stay portal when in-house
+HK role filtered queue; managers assign
+MaintenanceTicket assign/resolve
+docs/HOUSEKEEPING.md
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-09
+Section: HK
+Caption: HouseKanban columns with Guest request badge
+Suggested asset: Screenshot housekeeping tab
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+19. MEDIA PIPELINE
+================================================================================
+
+MediaAsset + multer upload; Cloudinary optional
+GalleryImagePicker in Inventory — no raw URL paste on type forms
+Public pages use useSiteMedia with static fallbacks
+
+================================================================================
+20. REPORTS AND EXPORTS
+================================================================================
+
+GET /reports/occupancy | revenue | guest-feedback | performance
+CSV via format=csv + client downloadCsv
+Overview charts: DeskCharts (Recharts)
+
+================================================================================
+21. SEED AND DEMO DATA
+================================================================================
+
+server/src/seed.js + ensureDefaults + ensureDining + ensureDemoStaff
+Demo password: AzureBay#2025
+
+Accounts:
+  admin@azurebay.test      admin
+  manager@azurebay.test    manager
+  desk@azurebay.test       receptionist
+  house@azurebay.test      housekeeping
+  maint@azurebay.test      maintenance
+  guest@azurebay.test      guest
+
+ensureDemoStaff keeps demo staff active on boot (avoids inactive house login).
+
+================================================================================
+22. TESTING AND QUALITY
+================================================================================
+
+  server: npm test (node --test) — see server/test/
+  Manual: docs/SUBMISSION_TEST_GUIDE.md
+  Lint: client npm run lint
+  Manual smoke: health, login each role, book, check-in, dining, HK, publish review
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: DV-10
+Section: Testing
+Caption: Checklist excerpt or test run terminal output
+Suggested asset: Screenshot of SUBMISSION_TEST_GUIDE or test pass log
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+23. DEPLOYMENT NOTES
+================================================================================
+
+  • Build client: npm run build → static host / CDN
+  • API: Node process manager; set CLIENT_ORIGIN to production URL
+  • MongoDB Atlas recommended for hosted demos
+  • Secure JWT_SECRET; HTTPS in production; secure cookies if used
+  • Configure EmailJS + Cloudinary for full feature parity
+
+================================================================================
+24. CONVENTIONS (DO NOT BREAK)
+================================================================================
+
+  • Prefer extending existing components over parallel design systems
+  • Update docs/WORKLOG.md and domain docs when shipping features
+  • Enforce RBAC on API even if UI hides controls
+  • Do not replace working booking/availability logic casually
+  • Room content: amenities on RoomType; policies Setting; reviews Feedback
+  • Keep PortalPage changes localized; extract boards when growing
+
+================================================================================
+25. IMAGE PLATE INDEX
+================================================================================
+
+DV-01 Context diagram
+DV-02 Terminals running
+DV-03 Booking sequence
+DV-04 Access matrix graphic
+DV-05 ER / schema diagram
+DV-06 API JSON samples
+DV-07 Messaging split
+DV-08 Dining kitchen
+DV-09 Housekeeping kanban
+DV-10 Testing evidence
+
+END OF DEVELOPER GUIDE
+================================================================================

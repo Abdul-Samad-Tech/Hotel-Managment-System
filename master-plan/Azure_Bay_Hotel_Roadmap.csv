@@ -1,0 +1,12 @@
+﻿Phase,Workstream,Duration,Primary Tasks,Exit Deliverable
+0,Project kickoff,0.5 week,"Confirm scope, naming, roles, booking rules, repo, environments","Scope baseline, issue board, repo conventions"
+1,UI foundation + public website,1.5 weeks,"Implement screenshot-locked header, hero, booking bar, features, rooms, experiences, testimonials, CTA, footer","Pixel-matched Home, responsive design tokens"
+2,Auth + RBAC,1 week,"Login/logout, protected routes, staff roles, guest auth, permission matrix",Secure auth + authorization
+3,Room inventory,1 week,"Room types, rooms, status board, availability API, seed data",Room inventory/admin screens + availability
+4,Reservations + guest profiles,1.5 weeks,"Search, booking creation, confirmation, modifications, cancellations, guest profiles",End-to-end reservation flow
+5,Check-in/out + billing,1.5 weeks,"Stay records, key/reference handling, invoice items, taxes, payments, printable invoice",Operational front-desk flow
+6,Housekeeping + maintenance,1 week,"Task board, assignment, live room-status updates, maintenance tickets",Staff workflow screens
+7,Guest services + feedback + notifications,1 week,"Service requests, feedback, notifications, read/unread state",Guest services loop
+8,Reports + analytics,1 week,"Occupancy, revenue, feedback reports; export-ready views",Manager reporting dashboard
+9,QA + security + performance,1.5 weeks,"Unit/integration/E2E tests, validation, rate limiting, indexes, responsive/browser QA",Release candidate
+10,Documentation + video + deployment,0.5-1 week,"Developer/user docs, deployment, backups, demo video, source-code packaging",Final eProject submission pack

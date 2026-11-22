@@ -1,0 +1,455 @@
+================================================================================
+AZURE BAY HOTEL & RESORT
+USER GUIDE
+Guests · Front Desk · Managers · Admin · Housekeeping · Maintenance
+================================================================================
+
+Document type: User Guide (PDF source — plain text)
+Project: Hotel Management System (HMS)
+Audience: End users, trainers, examiners demonstrating the product
+Version: 1.0 | 2026-10-13
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1.  Welcome and what you can do
+2.  Getting started (URLs and demo logins)
+3.  Guest — browse the website
+4.  Guest — create account and sign in
+5.  Guest — search and book a room
+6.  Guest — My bookings and messages
+7.  Guest — Your stay portal (in-house)
+8.  Guest — dining and room care
+9.  Receptionist — front desk day
+10. Receptionist — messages and dining boards
+11. Manager — inventory, media, menu, reviews
+12. Admin — staff and hotel settings
+13. Housekeeping — daily board
+14. Maintenance — tickets
+15. Alerts for all staff
+16. Troubleshooting
+17. Quick role cheat sheet
+18. Image plate index
+
+================================================================================
+1. WELCOME AND WHAT YOU CAN DO
+================================================================================
+
+Azure Bay Hotel & Resort’s digital system has two sides:
+
+  A) Public website — explore the resort, compare rooms, book nights, contact us
+  B) Portal — after login, guests manage stays; staff run hotel operations
+
+This guide explains every major task in plain language. Screenshots placeholders
+mark where to insert live product images into the PDF.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-01
+Section: Welcome
+Caption: Home page hero — Azure Bay first impression
+Suggested asset: Screenshot of http://127.0.0.1:5173/
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+2. GETTING STARTED (URLS AND DEMO LOGINS)
+================================================================================
+
+Website (client):  http://127.0.0.1:5173
+API (must be running): http://127.0.0.1:5000
+
+Demo password for all seeded accounts: AzureBay#2025
+
+  admin@azurebay.test         → Admin portal
+  manager@azurebay.test       → Manager portal
+  desk@azurebay.test          → Reception / front desk
+  house@azurebay.test         → Housekeeping
+  maint@azurebay.test         → Maintenance
+  guest@azurebay.test         → Guest stay portal
+
+Login page: /login   |   Register: /register
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-02
+Section: Login
+Caption: Sign-in form with email and password fields
+Suggested asset: Screenshot /login
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+3. GUEST — BROWSE THE WEBSITE
+================================================================================
+
+Without signing in you may:
+
+  • View Home, Rooms, Room details, Dining info, Experiences, Gallery, Location, Contact
+  • Browse amenities, policies, and published guest reviews on a room page
+  • Open legal pages (privacy / terms) from the footer
+
+Booking actions ask you to sign in first (you are returned to your booking after login).
+
+Steps — explore rooms:
+  1. Click Rooms in the top navigation (or use Home rooms carousel).
+  2. Filter by price, bed type, or amenities if needed.
+  3. Open a room card to see gallery, amenities, policies, reviews, and rates.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-03
+Section: Rooms list
+Caption: Rooms page with filters and room cards
+Suggested asset: Screenshot /rooms
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-04
+Section: Room detail
+Caption: Room detail showing Amenities, Policies, Reviews tabs/sections
+Suggested asset: Screenshot /rooms/{slug}
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+4. GUEST — CREATE ACCOUNT AND SIGN IN
+================================================================================
+
+Register:
+  1. Go to /register.
+  2. Enter name, email, password (and complete email OTP if the hotel enabled EmailJS).
+  3. After success, you are a Guest user with a profile.
+
+Sign in:
+  1. Go to /login.
+  2. Enter email + password.
+  3. You land on the guest home (Your stay) or the page you were trying to book.
+
+================================================================================
+5. GUEST — SEARCH AND BOOK A ROOM
+================================================================================
+
+  1. On Home, use Check In / Check Out / Guests / Room type → Check Availability
+     (or Book Now on a room).
+  2. Pick nights inside the hotel’s open booking window. Past dates are blocked.
+     Sold-out nights cannot be selected.
+  3. Confirm room and guest counts on the booking flow.
+  4. Submit the reservation (signed-in required).
+  5. Note your confirmation code — desk and My bookings both use it.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-05
+Section: Booking
+Caption: Booking bar or booking flow date picker with available nights
+Suggested asset: Screenshot booking calendar
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+6. GUEST — MY BOOKINGS AND MESSAGES
+================================================================================
+
+My bookings (/my-bookings):
+  • See your reservations and statuses
+  • Cancel a confirmed stay when policy allows
+  • Request a date change → opens Messages with night suggestions for the desk
+
+Messages (/messages):
+  • Private inbox with the hotel desk (not visible to other guests)
+  • Read replies; continue the thread about dates or stay questions
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-06
+Section: My bookings
+Caption: My bookings list with confirmation codes and actions
+Suggested asset: Screenshot /my-bookings as guest
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-07
+Section: Messages
+Caption: Guest messages conversation with the desk
+Suggested asset: Screenshot /messages
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+7. GUEST — YOUR STAY PORTAL (IN-HOUSE)
+================================================================================
+
+Open Guest portal (after login): Your stay + Profile (+ Messages link).
+
+Your stay:
+  • List reservations
+  • Save special requests on confirmed stays
+  • Cancel when allowed
+  • Send stay feedback (rating + comment) — appears on the website only after
+    the manager/admin publishes it
+  • See recent dining orders summary when available
+
+Profile:
+  • Update guest profile fields (phone, preferences, etc.)
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-08
+Section: Guest stay
+Caption: Guest portal — Your stay panel with reservation and feedback form
+Suggested asset: Screenshot /guest as guest@azurebay.test
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+8. GUEST — DINING AND ROOM CARE
+================================================================================
+
+These features unlock after the front desk checks you in (status checked_in).
+
+Dining (website /dining):
+  • Browse live menu
+  • Place room-service style orders (charged to stay invoice as dining lines)
+  • Request / manage table seating where offered
+  • If not checked in, the page explains why ordering is closed
+
+Room care (Your stay):
+  • Request room cleaning (make-up)
+  • Set Do not disturb (blocks new cleaning requests until cleared)
+  • Watch status: requested → in progress → completed
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-09
+Section: Dining guest
+Caption: Dining page while checked in — menu / cart
+Suggested asset: Screenshot /dining after check-in
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-10
+Section: Room care
+Caption: Guest Room care card — cleaning / DND controls
+Suggested asset: Screenshot Stay portal Room care section
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+9. RECEPTIONIST — FRONT DESK DAY
+================================================================================
+
+Login: desk@azurebay.test → Front desk tab.
+
+Typical morning:
+  1. Open Front desk — review arrivals (confirmed) and in-house stays.
+  2. Search by guest name or confirmation code.
+  3. Check in arriving guests (confirmed → checked_in).
+  4. Open Details sheet for guest summary; Move dates if needed.
+  5. At departure, Check out (frees the room for later dates).
+  6. Mark No-show when a confirmed guest never arrives.
+  7. Open Invoice — add charges, record payment, print or email bill.
+
+Also use Guests tab for walk-in profiles; Services for guest requests queue.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-11
+Section: Front desk
+Caption: Front desk stays table with ⋮ actions open
+Suggested asset: Screenshot Front desk as desk user
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-12
+Section: Invoice
+Caption: Invoice panel with line items and payment
+Suggested asset: Screenshot invoice from desk actions
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+10. RECEPTIONIST — MESSAGES AND DINING BOARDS
+================================================================================
+
+Messages:
+  • Answer guest threads; apply agreed date moves via Front desk Move dates
+
+Dining (receptionist):
+  • Kitchen — advance order statuses for the kitchen
+  • Tables — seating board
+  • You do NOT see Menu editor or Dining revenue Reports (managers/admin only)
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-13
+Section: Desk dining
+Caption: Dining tabs showing only Kitchen and Tables for receptionist
+Suggested asset: Screenshot Dining as desk@ — highlight missing Menu/Reports
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+11. MANAGER — INVENTORY, MEDIA, MENU, REVIEWS
+================================================================================
+
+Login: manager@azurebay.test
+
+Overview:
+  • Occupancy, revenue, feedback charts; export CSV
+  • Guest reviews — Publish or Hide feedback for the public site
+
+Inventory:
+  1. Add Room type — name, nightly rate, bed, capacity, amenities chips, photo
+  2. Add Physical rooms — room number, type, floor
+  3. Edit / deactivate / restore types and rooms as needed
+  Public /rooms updates from these types.
+
+Media:
+  • Name an image → Upload → later pick it in Inventory (no URL paste required)
+
+Dining:
+  • Full access: Menu CRUD + Reports + Kitchen + Tables
+
+Housekeeping / Maintenance:
+  • Assign tasks and tickets; oversee the floor
+
+Managers cannot open Staff or Settings (admin only).
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-14
+Section: Inventory amenities
+Caption: Adding amenity chips on a room type
+Suggested asset: Screenshot Inventory add/edit amenities
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-15
+Section: Publish review
+Caption: Overview Guest reviews — Publish / Hide buttons
+Suggested asset: Screenshot Overview reviews moderation
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+12. ADMIN — STAFF AND HOTEL SETTINGS
+================================================================================
+
+Login: admin@azurebay.test
+
+Staff:
+  1. Add staff — name, email, role (manager / receptionist / housekeeping / maintenance)
+  2. System shows a one-time temporary password (Bay#…) — copy and share securely
+  3. Use New password on a row to issue another temporary password
+  4. Deactivate / Activate accounts (not the primary admin)
+
+Settings:
+  • Hotel name, currency, tax rate
+  • Booking window (open from / open to) — guests can only book inside this range
+  • Stay policies — add/edit/remove title+body rows shown on every room detail page
+  • Save settings
+
+Admin also has full operational tabs for oversight.
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-16
+Section: Staff
+Caption: Staff directory with temporary password card after create
+Suggested asset: Screenshot Staff tab
+[[[ /IMAGE PLACEHOLDER ]]]
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-17
+Section: Settings policies
+Caption: Settings — Stay policies list and add form
+Suggested asset: Screenshot Settings stay policies section
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+13. HOUSEKEEPING — DAILY BOARD
+================================================================================
+
+Login: house@azurebay.test → Housekeeping tab.
+
+  • See unassigned tasks + tasks assigned to you (not other attendants’ private queues)
+  • Claim unassigned work by starting it
+  • Update status through to completed
+  • Guest Room care cards show Guest badges; check-out cleans show Check-out
+  • Completing check-out cleans frees the room; guest make-up does not check the guest out
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-18
+Section: Housekeeping
+Caption: Housekeeping kanban board
+Suggested asset: Screenshot Housekeeping as house user
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+14. MAINTENANCE — TICKETS
+================================================================================
+
+Login: maint@azurebay.test → Maintenance tab.
+
+  • Open assigned tickets
+  • Update progress / resolve with notes
+  • Managers/admin assign work from the same board
+
+[[[ IMAGE PLACEHOLDER ]]]
+ID: UG-19
+Section: Maintenance
+Caption: Maintenance tickets list with status actions
+Suggested asset: Screenshot Maintenance tab
+[[[ /IMAGE PLACEHOLDER ]]]
+
+================================================================================
+15. ALERTS FOR ALL STAFF
+================================================================================
+
+Alerts tab (bell):
+  • In-app notifications (e.g. new HK work after check-out)
+  • Open the linked board from the alert when offered
+  • Mark as read by using the list as implemented
+
+================================================================================
+16. TROUBLESHOOTING
+================================================================================
+
+Problem: Website loads but rooms/booking fail
+  → Confirm API is running on port 5000
+
+Problem: “Sign in required” when booking
+  → Expected — register/login, then continue
+
+Problem: Cannot order dining
+  → Ask desk to check you in first
+
+Problem: Feedback not on Home page
+  → Manager/Admin must Publish it under Overview → Guest reviews
+
+Problem: House login fails / inactive
+  → Use seed demo house@azurebay.test with AzureBay#2025; ask admin to Activate
+
+Problem: Receptionist cannot edit menu
+  → By design — ask a manager
+
+Problem: Date not selectable
+  → Outside booking window, past, or sold out
+
+================================================================================
+17. QUICK ROLE CHEAT SHEET
+================================================================================
+
+Guest          Browse, book, message, stay portal, dining/room care when in-house
+Receptionist   Front desk, guests, messages, dining kitchen/tables, view HK
+Manager        Ops + inventory/media/menu/reports + publish reviews
+Admin          Everything managers have + Staff + Settings (policies, tax, window)
+Housekeeping   Own + unassigned cleaning / guest care tasks
+Maintenance    Resolve maintenance tickets
+
+================================================================================
+18. IMAGE PLATE INDEX
+================================================================================
+
+UG-01 Home hero
+UG-02 Login
+UG-03 Rooms list
+UG-04 Room detail
+UG-05 Booking calendar
+UG-06 My bookings
+UG-07 Messages
+UG-08 Guest stay portal
+UG-09 Dining guest
+UG-10 Room care
+UG-11 Front desk
+UG-12 Invoice
+UG-13 Desk dining tabs
+UG-14 Inventory amenities
+UG-15 Publish review
+UG-16 Staff passwords
+UG-17 Settings policies
+UG-18 Housekeeping
+UG-19 Maintenance
+
+END OF USER GUIDE
+================================================================================

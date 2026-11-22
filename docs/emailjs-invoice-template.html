@@ -1,0 +1,138 @@
+<!--
+  Azure Bay — EmailJS Invoice Template
+  Paste into EmailJS → Email Templates → Content (HTML)
+
+  Settings → To Email:  {{to_email}}
+  Settings → To Name:   {{to_name}}
+  Settings → From Name: {{hotel_name}}
+  Subject: Your stay invoice {{invoice_number}} — {{hotel_name}}
+
+  Variables sent by the app:
+  to_email, to_name, invoice_number, hotel_name, total, lines, status
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{hotel_name}} Invoice</title>
+</head>
+<body style="margin:0;padding:0;background-color:#faf8f4;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#faf8f4;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="560" cellspacing="0" cellpadding="0" border="0" style="max-width:560px;width:100%;background-color:#ffffff;border-radius:22px;overflow:hidden;border:1px solid rgba(11,31,51,0.08);">
+
+          <!-- Header bar -->
+          <tr>
+            <td style="background-color:#0b1f33;padding:28px 32px 24px 32px;">
+              <p style="margin:0 0 6px 0;font-family:Georgia,'Times New Roman',serif;font-size:28px;line-height:1.2;color:#f2c078;letter-spacing:0.02em;">
+                {{hotel_name}}
+              </p>
+              <p style="margin:0;font-family:Inter,Arial,Helvetica,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,248,244,0.72);">
+                Stay invoice
+              </p>
+            </td>
+          </tr>
+
+          <!-- Gold accent line -->
+          <tr>
+            <td style="height:3px;background-color:#f2c078;font-size:0;line-height:0;">&nbsp;</td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td style="padding:28px 32px 8px 32px;font-family:Inter,Arial,Helvetica,sans-serif;color:#0a2233;">
+              <p style="margin:0 0 12px 0;font-size:15px;line-height:1.6;color:#5e6d78;">
+                Dear <span style="color:#0b1f33;font-weight:600;">{{to_name}}</span>,
+              </p>
+              <p style="margin:0;font-size:15px;line-height:1.65;color:#5e6d78;">
+                Thank you for staying with us. Here is a clear summary of your invoice.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Invoice meta card -->
+          <tr>
+            <td style="padding:20px 32px 8px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#faf8f4;border-radius:16px;border:1px solid rgba(11,31,51,0.08);">
+                <tr>
+                  <td style="padding:18px 20px;font-family:Inter,Arial,Helvetica,sans-serif;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        <td style="padding:0 0 10px 0;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#5e6d78;">
+                          Invoice
+                        </td>
+                        <td align="right" style="padding:0 0 10px 0;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#5e6d78;">
+                          Status
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#0b1f33;">
+                          {{invoice_number}}
+                        </td>
+                        <td align="right">
+                          <span style="display:inline-block;padding:6px 12px;border-radius:999px;background-color:#f2c078;color:#0b1f33;font-family:Inter,Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;">
+                            {{status}}
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Line items -->
+          <tr>
+            <td style="padding:20px 32px 8px 32px;font-family:Inter,Arial,Helvetica,sans-serif;">
+              <p style="margin:0 0 10px 0;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#5e6d78;">
+                Charges
+              </p>
+              <div style="margin:0;padding:16px 18px;background-color:#ffffff;border:1px solid rgba(11,31,51,0.08);border-radius:16px;font-size:14px;line-height:1.7;color:#0b1f33;white-space:pre-line;">{{lines}}</div>
+            </td>
+          </tr>
+
+          <!-- Total -->
+          <tr>
+            <td style="padding:16px 32px 28px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#0b1f33;border-radius:16px;">
+                <tr>
+                  <td style="padding:18px 22px;font-family:Inter,Arial,Helvetica,sans-serif;color:#faf8f4;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;">
+                    Amount due / total
+                  </td>
+                  <td align="right" style="padding:18px 22px;font-family:Georgia,'Times New Roman',serif;font-size:26px;color:#f2c078;">
+                    {{total}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Closing -->
+          <tr>
+            <td style="padding:0 32px 28px 32px;font-family:Inter,Arial,Helvetica,sans-serif;font-size:14px;line-height:1.65;color:#5e6d78;">
+              <p style="margin:0 0 10px 0;">
+                If anything looks incorrect, reply to this email or speak with our front desk — we are glad to help.
+              </p>
+              <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:18px;color:#0b1f33;">
+                Warm regards,<br />
+                <span style="color:#e0aa58;">{{hotel_name}}</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#faf8f4;border-top:1px solid rgba(11,31,51,0.08);padding:18px 32px;font-family:Inter,Arial,Helvetica,sans-serif;font-size:11px;line-height:1.5;color:#5e6d78;text-align:center;">
+              This message was sent for your stay records at {{hotel_name}}.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
